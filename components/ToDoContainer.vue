@@ -1,6 +1,8 @@
 <template>
   <div class="todolist-wrap">
     <h3>Your Tasks</h3>
+
+    <SearchTaskComponent  />
   </div>
 </template>
 
