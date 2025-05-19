@@ -9,9 +9,9 @@
       type: String,
       required: true,
     },
-    size: {
+    title: {
       type: String,
-      default: 'md',
+      required: true,
     },
   })
 

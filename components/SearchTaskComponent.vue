@@ -8,7 +8,7 @@
     <MainButton
       class="button"
       type="primary"
-      title="+"
+      title=""
     />
   </div>
 </template>
