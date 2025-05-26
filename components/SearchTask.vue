@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
 
   <div class="serach-container">
@@ -5,17 +9,13 @@
       <img src="@/assets/image/search.webp" alt="search">
       <input type="text" placeholder="Search tasks" />
     </div>
-    <MainButton
+    <Button
       class="button"
       type="primary"
-      title=""
+      image="@/assets/image/search.webp"
     />
   </div>
 </template>
-
-<script setup>
-
-</script>
 
 <style lang="scss" scoped>
 

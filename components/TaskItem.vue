@@ -1,19 +1,42 @@
-<script setup>
+<script setup lang="ts">
+
+const emit = defineEmits(['remove-task', 'task-done'])
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+  },
+  isDone: {
+    type: Boolean,
+  }
+})
+
+const onDelete = ()=>{
+  emit('remove-task');
+}
+
+const onDoneTaks = ()=>{
+  emit('task-done');
+}
 
 </script>
 
 <template>
-  <div class="task-card">
+  <div class="task-card" :class="isDone ? 'done' : ''">
     <div class="task-card__left">
-      <div class="task-card__check"></div>
-      <p class="task-card__text">title </p>
+      <div class="task-card__check" @click="onDoneTaks"></div>
+      <p class="task-card__text">{{props.title}}</p>
     </div>
 
     <div class="task-card__right">
-      <span class="task-card__date">date</span>
-      <button class="task-card__delete" @click="onDelete">
-        ✕
-      </button>
+      <span class="task-card__date">{{props.date}}</span>
+      <Button class="task-card__delete" @click="onDelete" title="✕">
+
+      </Button>
     </div>
 
   </div>
@@ -29,6 +52,16 @@
   align-items: center;
   color: #fff;
   margin-top: 1.2rem;
+
+  &.done {
+    .task-card__check {
+      background: #fff;
+    }
+    .task-card__text {
+      text-decoration: line-through;
+      opacity: .5;
+    }
+  }
 
   &__left {
     display: flex;

@@ -7,19 +7,17 @@
     },
     title: {
       type: String,
-      required: true,
+      // required: true,
     },
-    title: {
+    image: {
       type: String,
-      required: true,
-    },
+    }
   })
 
   const buttonClasses = computed(() => {
     return [
       'button-main',
       `button-main--${props.type}`,
-      `button-main--${props.size}`,
     ]
   })
 </script>
@@ -27,6 +25,7 @@
 <template>
   <button :class="buttonClasses">
     {{ title }}
+    <img v-if="image" :src="props.image" alt="button image">
   </button>
 </template>
 

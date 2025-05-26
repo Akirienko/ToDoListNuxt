@@ -2,9 +2,9 @@
   <div class="todolist-wrap">
     <h3>Your Tasks</h3>
 
-    <SearchTaskComponent />
+    <SearchTask />
 
-    <TasksContainer />
+    <TasksList />
   </div>
 </template>
 
