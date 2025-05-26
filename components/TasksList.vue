@@ -4,6 +4,12 @@ const taskInput = ref('');
 const removeTaskModal = ref(false);
 const taskIdToRemove = ref();
 
+const props = defineProps({
+  'searchValue': {
+    type: String,
+    required: true,
+  }
+})
 
 const tasks = ref([
   {
@@ -22,6 +28,18 @@ const tasks = ref([
 
 const hasTasks = computed(() => tasks.value.length > 0);
 
+// watch(() => props.searchValue, (newValue) => {
+//   if (newValue) {
+//     return tasks.value.filter(task => task.title.toLowerCase().includes(props.searchValue.toLowerCase()));
+//   }
+// })
+
+const filteredTasks = computed(() =>
+  tasks.value.filter(task =>
+    task.title.toLowerCase().includes(props.searchValue.toLowerCase())
+  )
+)
+
 const addTask = () => {
   tasks.value.push({
     title: taskInput.value,
@@ -35,10 +53,8 @@ const addTask = () => {
 };
 
 const deleteTask = (taskId: number) => {
-
   removeTaskModal.value = true;
   taskIdToRemove.value = taskId
-
 };
 
 const completedTasks = computed(()=>{
@@ -72,7 +88,7 @@ const confirmDeleteTask = () => {
     <div class="tasks-body">
       <TaskItem
         v-if="hasTasks"
-        v-for="task in tasks"
+        v-for="task in filteredTasks"
         :key="task.id"
         :title="task.title"
         :date="task.date"

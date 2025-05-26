@@ -1,16 +1,23 @@
+<script setup>
+
+const search = ref('')
+
+const searchValue = (value) => {
+  console.log(value);
+
+  search.value = value;
+}
+</script>
+
 <template>
   <div class="todolist-wrap">
     <h3>Your Tasks</h3>
 
-    <SearchTask />
+    <SearchTask @search-task="searchValue" />
 
-    <TasksList />
+    <TasksList :search-value="search" />
   </div>
 </template>
-
-<script setup>
-
-</script>
 
 <style lang="scss" scoped>
 .todolist-wrap {

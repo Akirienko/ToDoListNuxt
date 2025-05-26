@@ -1,5 +1,13 @@
 <script setup>
 
+const searchInput = ref('');
+
+const emit = defineEmits(['search-task'])
+
+const doSearch = () => {
+  emit('search-task', searchInput.value)
+}
+
 </script>
 
 <template>
@@ -7,12 +15,13 @@
   <div class="serach-container">
     <div class="search-input">
       <img src="@/assets/image/search.webp" alt="search">
-      <input type="text" placeholder="Search tasks" />
+      <input type="text" placeholder="Search tasks" v-model="searchInput" />
     </div>
     <Button
       class="button"
       type="primary"
       image="@/assets/image/search.webp"
+      @click="doSearch"
     />
   </div>
 </template>
