@@ -5,6 +5,8 @@ type IconButtonProps = {
   icon: IconType;
 };
 
+// Test branching strategy
+
 const props = defineProps<IconButtonProps>();
 
 </script>
