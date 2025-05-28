@@ -35,6 +35,7 @@
 
     &__title {
       font-weight: 800;
+
       span {
         color: #764FF7;
       }

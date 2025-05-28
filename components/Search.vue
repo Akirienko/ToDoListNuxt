@@ -1,11 +1,14 @@
 <script setup>
+//  add placeholder to props
+
+import searchImage from '@/assets/image/search.webp';
 
 const searchInput = ref('');
 
-const emit = defineEmits(['search-task'])
+const emit = defineEmits(['search']);
 
-const doSearch = () => {
-  emit('search-task', searchInput.value)
+const handleClick = () => {
+  emit('search', searchInput.value);
 }
 
 </script>
@@ -17,17 +20,11 @@ const doSearch = () => {
       <img src="@/assets/image/search.webp" alt="search">
       <input type="text" placeholder="Search tasks" v-model="searchInput" />
     </div>
-    <Button
-      class="button"
-      type="primary"
-      image="@/assets/image/search.webp"
-      @click="doSearch"
-    />
+    <IconButton icon="search" @click="handleClick" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-
 .serach-container {
   display: flex;
   align-items: center;
@@ -58,11 +55,11 @@ const doSearch = () => {
       color: #ccc;
       font-size: 1.6rem;
       outline: none;
+
       ::placeholder {
         color: #636366;
       }
     }
   }
 }
-
 </style>

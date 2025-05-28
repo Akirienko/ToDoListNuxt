@@ -1,21 +1,31 @@
-<script setup>
+<script setup lang="ts">
+//business component with logic (storage, filtering, adding, deleting)
 
-const search = ref('')
+const searchBy = ref('');
 
-const searchValue = (value) => {
+const handleSearch = (value) => {
   console.log(value);
 
-  search.value = value;
-}
+  searchBy.value = value;
+};
+
+const handleDelete = (id: string) => {
+  tasks.value = tasks.value.filter(task => task.id !== id);
+};
+
+const handleComplete = (id: string) => {
+
+};
 </script>
 
 <template>
   <div class="todolist-wrap">
     <h3>Your Tasks</h3>
 
-    <SearchTask @search-task="searchValue" />
+    <Search @search="handleSearch" />
 
-    <TasksList :search-value="search" />
+    <!-- TaskList :tasks="tasks" @onDeleteTask={handleDelete} @onCompleteTask={handleComplete} -->
+    <TaskList :searchBy="searchBy" />
   </div>
 </template>
 

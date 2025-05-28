@@ -1,32 +1,21 @@
 <script setup lang="ts">
+import mockTasks from '@/mocks/tasks.js';
+
 const taskModal = ref(false);
 const taskInput = ref('');
 const removeTaskModal = ref(false);
 const taskIdToRemove = ref();
 
 const props = defineProps({
-  'searchValue': {
+  'searchBy': {
     type: String,
     required: true,
   }
-})
+});
 
-const tasks = ref([
-  {
-    title: 'test task',
-    isDone: false,
-    date: '12 August',
-    id: 1,
-  },
-  {
-    title: 'test task 2',
-    isDone: false,
-    date: '14 August',
-    id: 2,
-  }
-]);
+const tasks = ref(mockTasks);
 
-const hasTasks = computed(() => tasks.value.length > 0);
+const isTaskListPopulated = computed(() => tasks.value.length > 0);
 
 // watch(() => props.searchValue, (newValue) => {
 //   if (newValue) {
@@ -34,11 +23,18 @@ const hasTasks = computed(() => tasks.value.length > 0);
 //   }
 // })
 
-const filteredTasks = computed(() =>
-  tasks.value.filter(task =>
-    task.title.toLowerCase().includes(props.searchValue.toLowerCase())
-  )
-)
+const filteredTasks = computed(() => {
+  if (!props.searchBy) return tasks.value;
+
+  return tasks.value.filter(task =>
+    task.title.toLowerCase().includes(props.searchBy.toLowerCase())
+  );
+});
+
+const clearModal = () => {
+  taskModal.value = false;
+  taskInput.value = '';
+};
 
 const addTask = () => {
   tasks.value.push({
@@ -48,18 +44,17 @@ const addTask = () => {
     id: Math.random(),
   });
 
-  taskModal.value = false
-  taskInput.value = ''
+  clearModal();
 };
 
 const deleteTask = (taskId: number) => {
   removeTaskModal.value = true;
-  taskIdToRemove.value = taskId
+  taskIdToRemove.value = taskId;
 };
 
-const completedTasks = computed(()=>{
-  return tasks.value.filter(isDone => isDone.isDone === true).length;
-})
+const completedTasks = computed(() => {
+  return tasks.value.filter(task => task.isDone).length;
+});
 
 const closeDeleteModal = () => {
   taskIdToRemove.value = null;
@@ -85,24 +80,18 @@ const confirmDeleteTask = () => {
       </div>
     </div>
 
+    <!-- REPLACE ACTIONS IN TEMPLATES TO SEPARATE FUNCTIONS IN THE SCRIPT SECTION -->
     <div class="tasks-body">
-      <TaskItem
-        v-if="hasTasks"
-        v-for="task in filteredTasks"
-        :key="task.id"
-        :title="task.title"
-        :date="task.date"
-        :isDone="task.isDone"
-        @remove-task="deleteTask(task.id)"
-        @task-done="task.isDone=!task.isDone"
-      />
+      <TaskItem v-if="isTaskListPopulated" v-for="task in filteredTasks" :key="task.id" :title="task.title"
+        :date="task.date" :isDone="task.isDone" @remove-task="deleteTask(task.id)"
+        @task-done="task.isDone = !task.isDone" />
 
       <div class="empty" v-else>
         <p>Now your tasks list is empty, add a task to see it here</p>
       </div>
 
 
-      <Button title="+" class="add-task-btn" @click="taskModal=true"></Button>
+      <Button title="+" class="add-task-btn" @click="taskModal = true"></Button>
     </div>
   </div>
 
@@ -112,52 +101,33 @@ const confirmDeleteTask = () => {
         <h5>Are you sure you want to delete this task?</h5>
 
         <div class="buttons">
-          <Button
-            class="button"
-            type="secondary"
-            title="No"
-            @click="closeDeleteModal"
-          />
-          <Button
-            class="button"
-            type="primary"
-            title="Yes"
-            @click="confirmDeleteTask"
-          />
+          <Button class="button" type="secondary" title="No" @click="closeDeleteModal" />
+          <Button class="button" type="primary" title="Yes" @click="confirmDeleteTask" />
         </div>
       </div>
     </template>
   </ModalsMainModal>
 
-  <!-- не поняв чому МОдалз треба писати -->
   <ModalsMainModal v-if="taskModal">
     <template v-slot:content>
       <div class="modal-wrap">
         <h5>Create Task</h5>
 
         <div class="task-input">
-          <img src="@/assets/image/pancil.webp" alt="pancil">
+          <Icon icon="pencil" />
           <input v-model="taskInput" type="text" placeholder="Write the task name..." />
         </div>
 
         <div class="buttons">
-          <Button
-            class="button"
-            type="secondary"
-            title="Cansel"
-            @click="taskModal=false"
-          />
-          <Button
-            class="button"
-            type="primary"
-            title="Accept"
-            @click="addTask"
-          />
+          <Button class="button" type="secondary" title="Cancel" @click="taskModal = false" />
+          <Button class="button" type="primary" title="Accept" @click="addTask" />
         </div>
       </div>
     </template>
   </ModalsMainModal>
 </template>
+
+<!-- <Modal /> -->
 
 <!-- То мені не обовязково вказувати клас як пропс, бо я можу і з цього уомпонента керувати чайлдом number-text, ааа бля не хуйня, якщо мені треба саме тксту даи то з баті компонента я не можу ним керувати, треба проспс -->
 
@@ -175,6 +145,7 @@ const confirmDeleteTask = () => {
   padding: 2rem;
   background: #18181C;
   width: 32rem;
+
   h5 {
     text-align: center;
     font-size: 3.2rem;
@@ -182,15 +153,18 @@ const confirmDeleteTask = () => {
     color: #fff;
     margin-bottom: 3.2rem;
   }
+
   .buttons {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 2rem;
+
     :first-child {
       margin-right: 2rem;
     }
   }
+
   .task-input {
     display: flex;
     width: 100%;
@@ -212,14 +186,17 @@ const confirmDeleteTask = () => {
       color: #ccc;
       font-size: 1.6rem;
       outline: none;
+
       ::placeholder {
         color: #636366;
       }
     }
   }
 }
+
 .tasks {
   margin-top: 2rem;
+
   &-header {
     display: flex;
     align-items: center;
@@ -227,15 +204,19 @@ const confirmDeleteTask = () => {
     border-bottom: .1rem solid #4B5563;
     padding: .8rem 0;
     margin-bottom: 2.8rem;
-    &__total, &__complited {
+
+    &__total,
+    &__complited {
       display: flex;
       align-items: center;
+
       p {
         margin-right: 1rem;
         font-size: 1.4rem;
       }
     }
   }
+
   &-body {
     position: relative;
 

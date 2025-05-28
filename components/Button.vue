@@ -1,34 +1,34 @@
 <script setup lang="ts">
 
-  const props = defineProps({
-    type: {
-      type: String,
-      default: 'primary',
-    },
-    title: {
-      type: String,
-      // required: true,
-    },
-    image: {
-      type: String,
-    }
-  })
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'primary',
+  },
+  title: {
+    type: String,
+    // required: true,
+  },
+  image: {
+    type: String,
+  }
+});
 
-  const buttonClasses = computed(() => {
-    return [
-      'button-main',
-      `button-main--${props.type}`,
-    ]
-  })
+console.log(props.image);
+
+const buttonClasses = computed(() => {
+  return [
+    'button-main',
+    `button-main--${props.type}`,
+  ];
+});
 </script>
 
 <template>
   <button :class="buttonClasses">
-    {{ title }}
-    <img v-if="image" :src="props.image" alt="button image">
+    <slot></slot>
   </button>
 </template>
-
 
 
 <style lang="scss" scoped>
