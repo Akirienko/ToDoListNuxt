@@ -19,7 +19,7 @@ const onDelete = ()=>{
   emit('remove-task');
 }
 
-const onDoneTaks = ()=>{
+const onDoneTask = ()=>{
   emit('task-done');
 }
 
@@ -28,15 +28,14 @@ const onDoneTaks = ()=>{
 <template>
   <div class="task-card" :class="isDone ? 'done' : ''">
     <div class="task-card__left">
-      <div class="task-card__check" @click="onDoneTaks"></div>
+      <div class="task-card__check" @click="onDoneTask"></div>
       <p class="task-card__text">{{props.title}}</p>
     </div>
 
     <div class="task-card__right">
       <span class="task-card__date">{{props.date}}</span>
-      <Button class="task-card__delete" @click="onDelete" title="✕">
-
-      </Button>
+      <button class="task-card__delete" @click="onDelete">✕
+      </button>
     </div>
 
   </div>
