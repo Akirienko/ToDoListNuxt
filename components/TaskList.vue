@@ -2,16 +2,17 @@
 
 const emit = defineEmits(['removeTask'])
 
-const props = defineProps({
-  'searchBy': {
-    type: String,
-    // required: true,
-  },
-  'tasks': {
-    type: Array,
-    required: true,
-  }
-});
+type Task = {
+  id: number
+  title: string
+  date: string
+  isDone: boolean
+}
+
+const props = defineProps<{
+  searchBy: string
+  tasks: Task[]
+}>()
 
 const deleteTask = (taskId: number) => {
   emit('removeTask', taskId)
