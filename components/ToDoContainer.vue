@@ -1,20 +1,13 @@
 <script setup lang="ts">
 import mockTasks from '@/mocks/tasks.js';
+import {getFormattedDate} from "@/functions/index"
 //business component with logic (storage, filtering, adding, deleting)
 
 const tasks = ref(mockTasks);
 const searchBy = ref('');
-const removeTaskModal = ref(false);
-const addTaskModal = ref(false);
-const taskIdToRemove = ref();
-
-const getFormattedDate = (): string => {
-  const now = new Date();
-  const day = now.getDate();
-  const month = now.toLocaleString('en-US', { month: 'long' });
-
-  return `${day} ${month}`;
-};
+const deleteTaskModal = ref(false);
+const openAddTaskModal = ref(false);
+const taskIdTodelete = ref();
 
 const addTask = (value: string) => {
   tasks.value.push({
@@ -24,7 +17,7 @@ const addTask = (value: string) => {
     id: Math.random(),
   });
 
-  addTaskModal.value = false;
+  openAddTaskModal.value = false;
 };
 
 const handleSearch = (value: string) => {
@@ -44,29 +37,29 @@ const completedTasks = computed(() => {
 });
 
 const handleDeleteTask = (taskId: string) => {
-  removeTaskModal.value = true;
+  deleteTaskModal.value = true;
 
-  taskIdToRemove.value = taskId;
+  taskIdTodelete.value = taskId;
 };
 
 const acceptDeleting = () => {
-  tasks.value = tasks.value.filter(task => task.id !== taskIdToRemove.value);
+  tasks.value = tasks.value.filter(task => task.id !== taskIdTodelete.value);
 
-  removeTaskModal.value = false;
+  deleteTaskModal.value = false;
 }
 
-const rejectDeleting = ()=>{
-  taskIdToRemove.value = '';
+const handleRejectDeleting = ()=>{
+  taskIdTodelete.value = '';
 
-  removeTaskModal.value = false;
+  deleteTaskModal.value = false;
 }
 
 const handleAddTask = () => {
-  addTaskModal.value = true;
+  openAddTaskModal.value = true;
 };
 
 const rejectAdding = ()=>{
-  addTaskModal.value = false;
+  openAddTaskModal.value = false;
 }
 
 const acceptAdding = (value: string)=>{
@@ -90,11 +83,11 @@ const acceptAdding = (value: string)=>{
       </div>
     </div>
 
-    <TaskList :searchBy="searchBy" :tasks="filteredTasks" @remove-task="handleDeleteTask"/>
+    <TaskList :searchBy="searchBy" :tasks="filteredTasks" @delete-task="handleDeleteTask"/>
 
-    <ModalsRemoveTask v-if="removeTaskModal" @reject-deleting="rejectDeleting" @accept-deleting="acceptDeleting"/>
+    <ModalsDeleteTask v-if="deleteTaskModal" @handle-reject-deleting="handleRejectDeleting" @accept-deleting="acceptDeleting"/>
 
-    <ModalsAddTask v-if="addTaskModal" @accept-adding="acceptAdding" @reject-adding="rejectAdding"/>
+    <ModalsAddTask v-if="openAddTaskModal" @accept-adding="acceptAdding" @reject-adding="rejectAdding"/>
 
     <Button class="add-task-btn" @click="handleAddTask">+</Button>
   </div>

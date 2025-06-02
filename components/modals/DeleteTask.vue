@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['rejectDeleting', 'acceptDeleting']);
+const emit = defineEmits(['handleRejectDeleting', 'acceptDeleting']);
 
 const handleReject = () => {
-  emit('rejectDeleting')
+  emit('handleRejectDeleting')
 }
 
 const handleAccept = () => {

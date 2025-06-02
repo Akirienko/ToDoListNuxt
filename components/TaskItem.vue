@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const emit = defineEmits(['remove-task', 'task-done'])
+const emit = defineEmits(['delete-task', 'task-done'])
 
 const props = defineProps({
   title: {
@@ -16,10 +16,10 @@ const props = defineProps({
 })
 
 const onDelete = ()=>{
-  emit('remove-task');
+  emit('delete-task');
 }
 
-const onDoneTask = ()=>{
+const onComplete = ()=>{
   emit('task-done');
 }
 
@@ -28,7 +28,7 @@ const onDoneTask = ()=>{
 <template>
   <div class="task-card" :class="isDone ? 'done' : ''">
     <div class="task-card__left">
-      <div class="task-card__check" @click="onDoneTask"></div>
+      <div class="task-card__check" @click="onComplete"></div>
       <p class="task-card__text">{{props.title}}</p>
     </div>
 
