@@ -1,8 +1,6 @@
 <script setup>
 //  add placeholder to props
 
-import searchImage from '@/assets/image/search.webp';
-
 const searchInput = ref('');
 
 const emit = defineEmits(['search']);
