@@ -85,51 +85,13 @@ const acceptAdding = (value: string)=>{
 
     <TaskList :searchBy="searchBy" :tasks="filteredTasks" @delete-task="handleDeleteTask"/>
 
-    <ModalsDeleteTask v-if="deleteTaskModal" @handle-reject-deleting="handleRejectDeleting" @accept-deleting="acceptDeleting"/>
+    <DeleteTask v-if="deleteTaskModal" @handle-reject-deleting="handleRejectDeleting" @accept-deleting="acceptDeleting"/>
 
-    <ModalsAddTask v-if="openAddTaskModal" @accept-adding="acceptAdding" @reject-adding="rejectAdding"/>
+    <AddTask v-if="openAddTaskModal" @accept-adding="acceptAdding" @reject-adding="rejectAdding"/>
 
     <Button class="add-task-btn" @click="handleAddTask">+</Button>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.todolist-wrap {
-  background: #18181C;
-  border-radius: 2.4rem;
-  padding: 4rem;
-  position: relative;
+<style src="./toDoContainer.scss" scoped ></style>
 
-  h3 {
-    margin-bottom: 3.2rem;
-    font-size: 32px;
-    font-weight: 600;
-    text-align: center;
-  }
-}
-
-.tasks-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: .1rem solid #4B5563;
-  padding: .8rem 0;
-  margin: 2.8rem 0;
-
-  &__total,
-  &__complied {
-    display: flex;
-    align-items: center;
-
-    p {
-      margin-right: 1rem;
-      font-size: 1.4rem;
-    }
-  }
-}
-
-.add-task-btn {
-  position: absolute;
-  right: 3rem;
-}
-</style>
