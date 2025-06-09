@@ -1,5 +1,24 @@
+<script setup lang="ts">
+
+// why we put in breacet useWetherWether
+import { useWether } from "@/composition/useWether"
+
+const { getWether } = useWether()
+
+const wetherUrl = 'https://api.weatherapi.com/v1/current.json'
+
+onMounted(async ()  => {
+  const wether = await getWether(wetherUrl)
+
+  console.log('wether', wether);
+});
+
+</script>
+
 <template>
   <div class="header">
+
+    <Wether />
 
     <div class="header-title">
       <img class="header-title__img" src="@/assets/image/logo.webp" alt="logo">
@@ -9,10 +28,6 @@
 
   </div>
 </template>
-
-<script setup>
-
-</script>
 
 <style lang="scss" scoped>
 .header {
