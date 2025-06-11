@@ -7,18 +7,14 @@ const { getWether } = useWether()
 
 const wetherUrl = 'https://api.weatherapi.com/v1/current.json'
 
-onMounted(async ()  => {
-  const wether = await getWether(wetherUrl)
-
-  console.log('wether', wether);
-});
+const wether = await getWether(wetherUrl);
 
 </script>
 
 <template>
   <div class="header">
 
-    <Wether />
+    <Wether :weather="wether" class="weather" />
 
     <div class="header-title">
       <img class="header-title__img" src="@/assets/image/logo.webp" alt="logo">
@@ -36,6 +32,12 @@ onMounted(async ()  => {
   justify-content: center;
   flex-direction: column;
   margin-bottom: 4rem;
+  position: relative;
+
+  .weather {
+    position: absolute;
+    left: 2rem;
+  }
 
   &-title {
     display: flex;
