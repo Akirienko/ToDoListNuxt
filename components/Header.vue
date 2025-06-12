@@ -1,20 +1,60 @@
 <script setup lang="ts">
-
 // why we put in breacet useWetherWether
 import { useWether } from "@/composition/useWether"
 
 const { getWether } = useWether()
 
 const wetherUrl = 'https://api.weatherapi.com/v1/current.json'
+const currentCity = ref('')
 
-const wether = await getWether(wetherUrl);
+// const wether = await getWether(wetherUrl);
+const wether = ref();
+
+
+const getUserCity = async (val: string) => {
+  // console.log('val', val);
+
+  currentCity.value = val
+
+  wether.value = await getWether(wetherUrl, val);
+
+  // console.log('wether.value',wether.value);
+
+}
+
+// const latitude = ref();
+// const longitude = ref();
+// const error = ref();
+
+// const getLocation = () => {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       (position) => {
+//         latitude.value = position.coords.latitude;
+//         longitude.value = position.coords.longitude;
+//         error.value = null;
+//       },
+//       (err) => {
+//         error.value = `Error: ${err.message}`;
+//         latitude.value = null;
+//         longitude.value = null;
+//       }
+//     );
+//   } else {
+//     error.value = 'Geolocation is not supported by this browser.';
+//   }
+// };
 
 </script>
 
 <template>
   <div class="header">
 
-    <Wether :weather="wether" class="weather" />
+    <!-- <button @click="getLocation">Get Location</button>
+    <p v-if="latitude && longitude">Latitude: {{ latitude }}</p>
+    <p v-if="latitude && longitude">Longitude: {{ longitude }}</p>
+    <p v-if="error">{{ error }}</p> -->
+    <Wether :weather="wether" class="weather" v-on:user-city="getUserCity" />
 
     <div class="header-title">
       <img class="header-title__img" src="@/assets/image/logo.webp" alt="logo">

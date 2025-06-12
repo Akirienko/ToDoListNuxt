@@ -1,13 +1,13 @@
 export function useWether() {
 
-  const getWether = async (url: string) => {
+  const getWether = async (url: string, city: string) => {
 
       try {
-        const { data, error } = await useFetch(`${url}?key=d041fe948fcc4e73a2b134159252605&q=KYIV`, {
+        const { data, error } = await useFetch(`${url}?key=d041fe948fcc4e73a2b134159252605&q=${city}`, {
           method: 'GET',
         })
 
-        console.log('resp.data.value', data.value);
+        // console.log('resp.data.value', data.value);
 
 
         return data.value;
