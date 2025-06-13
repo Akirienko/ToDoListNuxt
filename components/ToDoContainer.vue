@@ -1,21 +1,49 @@
 <script setup lang="ts">
-import mockTasks from '@/mocks/tasks.js';
-import {getFormattedDate} from "@/functions/index"
-//business component with logic (storage, filtering, adding, deleting)
+import { getFormattedDate } from "@/functions/index";
+import { useList } from '@/composable/useTaskList';
+import type { Task } from '~/types';
 
-const tasks = ref(mockTasks);
+const tasks = ref<Task[]>([]);
+const { getList, addTask, storedTaskList, deleteTask } = useList()
+
+onMounted(() => {
+
+  tasks.value = getList()
+
+  console.log('tasks.value', tasks.value);
+
+});
+
 const searchBy = ref('');
 const deleteTaskModal = ref(false);
 const openAddTaskModal = ref(false);
 const taskIdTodelete = ref();
 
-const addTask = (value: string) => {
-  tasks.value.push({
+const addTaskConfirm = (value: string) => {
+
+  // tasks.value.push({
+  //   title: value,
+  //   isDone: false,
+  //   date: getFormattedDate(),
+  //   id: Math.random(),
+  // });
+
+  // addTask(tasks.value);
+
+  // не розумію чим воно відрізняється ?????????????????????????????????
+
+  const newTask: Task = {
     title: value,
     isDone: false,
     date: getFormattedDate(),
     id: Math.random(),
-  });
+  };
+
+
+  addTask(newTask);
+
+  // but i think this is bad decision  to do like this
+  tasks.value = getList();
 
   openAddTaskModal.value = false;
 };
@@ -43,7 +71,11 @@ const handleDeleteTask = (taskId: string) => {
 };
 
 const acceptDeleting = () => {
-  tasks.value = tasks.value.filter(task => task.id !== taskIdTodelete.value);
+
+  deleteTask(taskIdTodelete.value)
+
+  // but i think this is bad decision  to do like this
+  tasks.value = getList();
 
   deleteTaskModal.value = false;
 }
@@ -63,7 +95,7 @@ const rejectAdding = ()=>{
 }
 
 const acceptAdding = (value: string)=>{
-  addTask(value);
+  addTaskConfirm(value);
 }
 
 </script>
