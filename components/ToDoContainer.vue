@@ -3,16 +3,7 @@ import { getFormattedDate } from "@/functions/index";
 import { useList } from '@/composable/useTaskList';
 import type { Task } from '~/types';
 
-const tasks = ref<Task[]>([]);
-const { getList, addTask, storedTaskList, deleteTask } = useList()
-
-onMounted(() => {
-
-  tasks.value = getList()
-
-  console.log('tasks.value', tasks.value);
-
-});
+const { addTask, storedTaskList, deleteTask } = useList();
 
 const searchBy = ref('');
 const deleteTaskModal = ref(false);
@@ -20,18 +11,6 @@ const openAddTaskModal = ref(false);
 const taskIdTodelete = ref();
 
 const addTaskConfirm = (value: string) => {
-
-  // tasks.value.push({
-  //   title: value,
-  //   isDone: false,
-  //   date: getFormattedDate(),
-  //   id: Math.random(),
-  // });
-
-  // addTask(tasks.value);
-
-  // не розумію чим воно відрізняється ?????????????????????????????????
-
   const newTask: Task = {
     title: value,
     isDone: false,
@@ -39,11 +18,7 @@ const addTaskConfirm = (value: string) => {
     id: Math.random(),
   };
 
-
   addTask(newTask);
-
-  // but i think this is bad decision  to do like this
-  tasks.value = getList();
 
   openAddTaskModal.value = false;
 };
@@ -53,15 +28,15 @@ const handleSearch = (value: string) => {
 };
 
 const filteredTasks = computed(() => {
-  if (!searchBy.value) return tasks.value;
+  if (!searchBy.value) return storedTaskList.value;
 
-  return tasks.value.filter(task =>
+  return storedTaskList.value.filter(task =>
     task.title.toLowerCase().includes(searchBy.value.toLowerCase())
   );
 });
 
 const completedTasks = computed(() => {
-  return tasks.value.filter(task => task.isDone).length;
+  return storedTaskList.value.filter(task => task.isDone).length;
 });
 
 const handleDeleteTask = (taskId: string) => {
@@ -71,30 +46,26 @@ const handleDeleteTask = (taskId: string) => {
 };
 
 const acceptDeleting = () => {
-
-  deleteTask(taskIdTodelete.value)
-
-  // but i think this is bad decision  to do like this
-  tasks.value = getList();
+  deleteTask(taskIdTodelete.value);
 
   deleteTaskModal.value = false;
-}
+};
 
-const handleRejectDeleting = ()=>{
+const handleRejectDeleting = () => {
   taskIdTodelete.value = '';
 
   deleteTaskModal.value = false;
-}
+};
 
 const handleAddTask = () => {
   openAddTaskModal.value = true;
 };
 
-const rejectAdding = ()=>{
+const rejectAdding = () => {
   openAddTaskModal.value = false;
-}
+};
 
-const acceptAdding = (value: string)=>{
+const acceptAdding = (value: string) => {
   addTaskConfirm(value);
 }
 
@@ -108,18 +79,19 @@ const acceptAdding = (value: string)=>{
 
     <div class="tasks-header">
       <div class="tasks-header__total">
-        <NumberBlock title="Total tasks:" text-class="number-text" :number="tasks.length" />
+        <NumberBlock title="Total tasks:" text-class="number-text" :number="storedTaskList.length" />
       </div>
       <div class="tasks-header__complied">
         <NumberBlock title="Completed" :number="completedTasks" />
       </div>
     </div>
 
-    <TaskList :searchBy="searchBy" :tasks="filteredTasks" @delete-task="handleDeleteTask"/>
+    <TaskList :searchBy="searchBy" :tasks="filteredTasks" @delete-task="handleDeleteTask" />
 
-    <ModalsDeleteTask v-if="deleteTaskModal" @handle-reject-deleting="handleRejectDeleting" @accept-deleting="acceptDeleting"/>
+    <ModalsDeleteTask v-if="deleteTaskModal" @handle-reject-deleting="handleRejectDeleting"
+      @accept-deleting="acceptDeleting" />
 
-    <ModalsAddTask v-if="openAddTaskModal" @accept-adding="acceptAdding" @reject-adding="rejectAdding"/>
+    <ModalsAddTask v-if="openAddTaskModal" @accept-adding="acceptAdding" @reject-adding="rejectAdding" />
 
     <Button class="add-task-btn" @click="handleAddTask">+</Button>
   </div>

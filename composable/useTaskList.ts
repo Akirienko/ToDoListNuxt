@@ -1,44 +1,35 @@
 import { ref } from "vue";
 import type { Task } from "~/types";
+import Storage from '~/services/Storage';
+
+const TASK_LIST_LS_KEY = "task-list";
 
 export function useList() {
+  const storedTaskList = ref<Task[]>([]);
 
-  const storedTaskList = ref<Task[]>([])
+  onMounted(() => {
+    const data = Storage.get<Task[]>(TASK_LIST_LS_KEY);
 
-  const getList = () => {
+    storedTaskList.value = data || [];
+  });
 
-    const data = localStorage.getItem("task-list");
-    storedTaskList.value = data ? JSON.parse(data) as Task[] : [];
-    return storedTaskList.value;
+  const addTask = (task: Task) => {
+    storedTaskList.value = [...storedTaskList.value, task];
+  };
 
-  }
+  const deleteTask = (id: string | number) => {
+    storedTaskList.value = storedTaskList.value.filter(task => task.id !== id);
+  };
 
-  const saveList = (tasks: Task[]) => {
-
-    localStorage.setItem("task-list", JSON.stringify(tasks));
-
-  }
-
-  const addTask = (newTask: Task) => {
-
-    const updated = [...storedTaskList.value, newTask];
-    saveList(updated);
-
-  }
-
-  const deleteTask = (deleteTask: string | number) => {
-    const updatedList = storedTaskList.value.filter(task => {task.id !== deleteTask})
-
-    saveList(updatedList);
-  }
+  //TODO: replace it in the future to separate composable?
+  watch(storedTaskList.value, () => {
+    Storage.set<Task[]>(TASK_LIST_LS_KEY, storedTaskList.value);
+  })
 
   return {
     storedTaskList,
-    getList,
     addTask,
     deleteTask
-  }
-
-
+  };
 }
 
