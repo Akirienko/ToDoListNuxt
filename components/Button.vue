@@ -14,8 +14,6 @@ const props = defineProps({
   }
 });
 
-// console.log(props.image);
-
 const buttonClasses = computed(() => {
   return [
     'button-main',

@@ -9,40 +9,16 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['userCity'])
-
 const currWeather = ref();
 const currLocation = ref();
-
-const userCity = ref('')
-const showWeather = ref(false)
-
 
 currWeather.value = props.weather?.current
 currLocation.value = props.weather?.location
 
-console.log('props.weather', props.weather);
-
-const handleUserCity = ()=> {
-  emit('userCity', userCity.value.toUpperCase())
-}
-
-
 </script>
 
 <template>
-  <div class="user" v-if="!showWeather">
-    <h2>Do u wanna know weather in any cite?</h2>
-    <p>Just write the city u want</p>
-
-    <div class="user-search">
-      <input type="text" v-model="userCity">
-
-      <Button type="secondary" @click="handleUserCity" >GO!</Button>
-    </div>
-
-  </div>
-  <div class="weather" v-else>
+  <div class="weather">
     <h2>{{ currLocation.name }}</h2>
     <div class="weather-temperature">
       <img :src="currWeather.condition.icon" alt="icon">

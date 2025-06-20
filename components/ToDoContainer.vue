@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import mockTasks from '@/mocks/tasks.js';
-import {getFormattedDate} from "@/functions/index"
+import {getFormattedDate} from "@/utils/index"
 //business component with logic (storage, filtering, adding, deleting)
 
 const tasks = ref(mockTasks);
