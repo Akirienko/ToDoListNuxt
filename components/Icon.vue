@@ -3,7 +3,7 @@ import searchImage from "@/assets/image/search.webp";
 import logoImage from "@/assets/image/logo.webp";
 import pencilImage from "@/assets/image/pencil.webp";
 
-type IconType = 'searchImage' | 'logo' | 'pencil';
+type IconType = 'search' | 'logo' | 'pencil';
 
 type IconButtonProps = {
   icon: IconType;
