@@ -4,6 +4,12 @@
   justify-content: center;
   flex-direction: column;
   margin-bottom: 4rem;
+  position: relative;
+
+  .weather {
+    position: absolute;
+    left: 2rem;
+  }
 
   &-title {
     display: flex;

@@ -18,7 +18,7 @@ const deleteTask = (taskId: number) => {
 <template>
   <div class="tasks">
     <div class="tasks-body">
-      <TaskItem v-if="tasks" v-for="task in props.tasks" :key="task.id" :title="task.title"
+      <TaskItem v-if="tasks.length" v-for="task in props.tasks" :key="task.id" :title="task.title"
         :date="task.date" :isDone="task.isDone" @delete-task="deleteTask(task.id)"
         @task-done="task.isDone = !task.isDone" />
 
