@@ -1,5 +1,21 @@
+<script setup lang="ts">
+// why we put in breacet useWeatherWeather
+import { useWeather } from "@/composition/useWeather"
+
+const { getWeather } = useWeather()
+
+const weatherUrl = 'https://api.weatherapi.com/v1/current.json'
+
+const weather = ref();
+
+weather.value = await getWeather(weatherUrl);
+
+</script>
+
 <template>
   <div class="header">
+
+    <Weather :weather="weather" class="weather" />
 
     <div class="header-title">
       <img class="header-title__img" src="@/assets/image/logo.webp" alt="logo">
@@ -10,10 +26,6 @@
   </div>
 </template>
 
-<script setup>
-
-</script>
-
 <style lang="scss" scoped>
 .header {
   display: flex;
@@ -21,6 +33,12 @@
   justify-content: center;
   flex-direction: column;
   margin-bottom: 4rem;
+  position: relative;
+
+  .weather {
+    position: absolute;
+    left: 2rem;
+  }
 
   &-title {
     display: flex;

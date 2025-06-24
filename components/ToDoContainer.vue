@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getFormattedDate } from "@/functions/index";
+import { getFormattedDate } from "@/utils/index";
 import { useList } from '@/composable/useTaskList';
 import type { Task } from '~/types';
 
