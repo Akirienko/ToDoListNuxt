@@ -13,18 +13,29 @@ export function useList() {
     storedTaskList.value = data || [];
   });
 
+  const saveToStorage = () => {
+    Storage.set<Task[]>(TASK_LIST_LS_KEY, storedTaskList.value);
+  }
+
   const addTask = (task: Task) => {
     storedTaskList.value = [...storedTaskList.value, task];
+
+    saveToStorage()
   };
 
   const deleteTask = (id: string | number) => {
     storedTaskList.value = storedTaskList.value.filter(task => task.id !== id);
+
+    saveToStorage()
   };
 
   //TODO: replace it in the future to separate composable?
-  watch(storedTaskList.value, () => {
-    Storage.set<Task[]>(TASK_LIST_LS_KEY, storedTaskList.value);
-  })
+  // watch(storedTaskList.value, () => {
+
+  //   console.log('watch-storedTaskList', storedTaskList.value);
+
+  //   Storage.set<Task[]>(TASK_LIST_LS_KEY, storedTaskList.value);
+  // })
 
   return {
     storedTaskList,
