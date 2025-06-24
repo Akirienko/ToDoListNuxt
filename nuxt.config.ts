@@ -5,5 +5,11 @@ export default defineNuxtConfig({
   css: [
     '@/assets/scss/reset.scss',
     '@/assets/scss/main.scss'
-  ]
+  ],
+  components: {
+    "dirs": [
+      { "path": "~/components/", "global": true, pathPrefix: false, },
+      // { "path": "~/components/modals", "global": true, pathPrefix: false, }
+    ],
+  },
 })

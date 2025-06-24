@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// why we put in breacet useWeatherWeather
 import { useWeather } from "@/composition/useWeather"
 
 const { getWeather } = useWeather()
@@ -26,42 +25,4 @@ weather.value = await getWeather(weatherUrl);
   </div>
 </template>
 
-<style lang="scss" scoped>
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 4rem;
-  position: relative;
-
-  .weather {
-    position: absolute;
-    left: 2rem;
-  }
-
-  &-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 3.2rem;
-
-    &__img {
-      width: 8rem;
-      height: 8rem;
-      margin-right: 1rem;
-    }
-
-    &__title {
-      font-weight: 800;
-
-      span {
-        color: #764FF7;
-      }
-    }
-  }
-
-  &-subtitle {
-    font-style: 2.4rem;
-  }
-}
-</style>
+<style src="./header.scss" scoped></style>

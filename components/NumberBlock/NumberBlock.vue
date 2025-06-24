@@ -25,19 +25,4 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-  .number-block {
-    display: flex;
-    align-items: center;
-    p {
-      font-size: 1.4rem;
-    }
-    .number {
-      background: #EEE7FE;
-      padding: .4rem .6rem;
-      color: #636366;
-      border-radius: .4rem;
-      margin-left: 1rem;
-    }
-  }
-</style>
+<style src="./numberBlock.scss" scoped></style>
