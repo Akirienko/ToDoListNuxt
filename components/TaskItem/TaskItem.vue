@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useList } from '@/composable/useTaskList';
+
+const { completedTasks } = useList();
 
 const emit = defineEmits(['delete-task', 'task-done'])
 
@@ -12,6 +15,12 @@ const props = defineProps({
   },
   isDone: {
     type: Boolean,
+  },
+  taskId: {
+    type: Number,
+
+    // WHY IF I REMOVE THIS STRING IN 42LINE I HAVE MISTAKE IN onComplete(props.taskId)
+    required: true,
   }
 })
 
@@ -19,7 +28,9 @@ const onDelete = ()=>{
   emit('delete-task');
 }
 
-const onComplete = ()=>{
+const onComplete = (id: number)=>{
+  completedTasks(id)
+
   emit('task-done');
 }
 
@@ -28,7 +39,7 @@ const onComplete = ()=>{
 <template>
   <div class="task-card" :class="isDone ? 'done' : ''">
     <div class="task-card__left">
-      <div class="task-card__check" @click="onComplete"></div>
+      <div class="task-card__check" @click="onComplete(props.taskId)"></div>
       <p class="task-card__text">{{props.title}}</p>
     </div>
 

@@ -20,7 +20,7 @@ const deleteTask = (taskId: number) => {
     <div class="tasks-body">
       <TaskItem v-if="tasks.length" v-for="task in props.tasks" :key="task.id" :title="task.title"
         :date="task.date" :isDone="task.isDone" @delete-task="deleteTask(task.id)"
-        @task-done="task.isDone = !task.isDone" />
+        @task-done="task.isDone = !task.isDone" :task-id="task.id" />
 
       <div class="empty" v-else>
         <p>Now your tasks list is empty, add a task to see it here</p>
