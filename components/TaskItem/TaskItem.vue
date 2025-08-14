@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { useList } from '@/composable/useTaskList';
-
-const { completedTasks } = useList();
-
-const emit = defineEmits(['delete-task', 'task-done'])
+const emit = defineEmits(['on-delete-task', 'on-complete-task'])
 
 const props = defineProps({
   title: {
@@ -18,20 +14,16 @@ const props = defineProps({
   },
   taskId: {
     type: Number,
-
-    // WHY IF I REMOVE THIS STRING IN 42LINE I HAVE MISTAKE IN onComplete(props.taskId)
     required: true,
   }
 })
 
-const onDelete = ()=>{
-  emit('delete-task');
+const onDelete = (id: number) => {
+  emit('on-delete-task', id);
 }
 
-const onComplete = (id: number)=>{
-  completedTasks(id)
-
-  emit('task-done');
+const onComplete = (id: number) => {
+  emit('on-complete-task', id);
 }
 
 </script>
@@ -45,7 +37,7 @@ const onComplete = (id: number)=>{
 
     <div class="task-card__right">
       <span class="task-card__date">{{props.date}}</span>
-      <button class="task-card__delete" @click="onDelete">✕
+      <button class="task-card__delete" @click="onDelete(props.taskId)">✕
       </button>
     </div>
 

@@ -29,14 +29,7 @@ export function useList() {
     saveToStorage()
   };
 
-  const completedTasks = (id: number) => {
-    // const testMap = storedTaskList.value.map(val => {
-    //   if (val.id === id) {
-    //     console.log('corrVal', val);
-    //     val.isDone = !val.isDone
-    //   }
-    // });
-
+  const completeTask = (id: number) => {
     storedTaskList.value.forEach(task => {
       if (task.id === id) {
         task.isDone = !task.isDone;
@@ -58,7 +51,7 @@ export function useList() {
     storedTaskList,
     addTask,
     deleteTask,
-    completedTasks
+    completeTask
   };
 }
 

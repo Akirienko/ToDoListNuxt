@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { getFormattedDate } from "@/utils/index";
 import { useList } from '@/composable/useTaskList';
+
 import type { Task } from '~/types';
 
-const { addTask, storedTaskList, deleteTask } = useList();
+const { addTask, storedTaskList, deleteTask, completeTask } = useList();
 
 const searchBy = ref('');
 const deleteTaskModal = ref(false);
@@ -69,6 +70,10 @@ const acceptAdding = (value: string) => {
   addTaskConfirm(value);
 }
 
+const handleCompleteTask = (id: number) => {
+  completeTask(id)
+}
+
 </script>
 
 <template>
@@ -86,7 +91,7 @@ const acceptAdding = (value: string) => {
       </div>
     </div>
 
-    <TaskList :searchBy="searchBy" :tasks="filteredTasks" @delete-task="handleDeleteTask" />
+    <TaskList :searchBy="searchBy" :tasks="filteredTasks" @on-delete-task="handleDeleteTask" @on-complete-task="handleCompleteTask" />
 
     <DeleteTask v-if="deleteTaskModal" @handle-reject-deleting="handleRejectDeleting"
       @accept-deleting="acceptDeleting" />

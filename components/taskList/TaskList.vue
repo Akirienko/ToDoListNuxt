@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import type { Task } from '@/types/index'
 
-const emit = defineEmits(['deleteTask'])
+const emit = defineEmits(['onDeleteTask', 'onCompleteTask'])
 
 const props = defineProps<{
   searchBy: string
   tasks: Task[]
 }>()
 
-const deleteTask = (taskId: number) => {
-  emit('deleteTask', taskId)
+const handleDeleteTask = (taskId: number) => {
+  emit('onDeleteTask', taskId)
 };
 
+const handleCompleteTask = (id: number) => {
+  emit('onCompleteTask', id)
+}
 
 </script>
 
@@ -19,8 +22,8 @@ const deleteTask = (taskId: number) => {
   <div class="tasks">
     <div class="tasks-body">
       <TaskItem v-if="tasks.length" v-for="task in props.tasks" :key="task.id" :title="task.title"
-        :date="task.date" :isDone="task.isDone" @delete-task="deleteTask(task.id)"
-        @task-done="task.isDone = !task.isDone" :task-id="task.id" />
+        :date="task.date" :isDone="task.isDone" @on-delete-task="handleDeleteTask"
+        @on-complete-task="handleCompleteTask" :task-id="task.id" />
 
       <div class="empty" v-else>
         <p>Now your tasks list is empty, add a task to see it here</p>
