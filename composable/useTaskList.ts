@@ -29,6 +29,16 @@ export function useList() {
     saveToStorage()
   };
 
+  const completeTask = (id: number) => {
+    storedTaskList.value.forEach(task => {
+      if (task.id === id) {
+        task.isDone = !task.isDone;
+      }
+    });
+
+    saveToStorage()
+  }
+
   //TODO: replace it in the future to separate composable?
   // watch(storedTaskList.value, () => {
 
@@ -40,7 +50,8 @@ export function useList() {
   return {
     storedTaskList,
     addTask,
-    deleteTask
+    deleteTask,
+    completeTask
   };
 }
 
