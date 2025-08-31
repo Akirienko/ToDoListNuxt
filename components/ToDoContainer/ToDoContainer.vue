@@ -2,7 +2,7 @@
 import { getFormattedDate } from "@/utils/index";
 import { useList } from '@/composable/useTaskList';
 
-import type { Task } from '~/types';
+import type { Task } from '@/types/index';
 
 const { addTask, storedTaskList, deleteTask, completeTask } = useList();
 
@@ -31,13 +31,13 @@ const handleSearch = (value: string) => {
 const filteredTasks = computed(() => {
   if (!searchBy.value) return storedTaskList.value;
 
-  return storedTaskList.value.filter(task =>
+  return storedTaskList.value.filter((task: Task) =>
     task.title.toLowerCase().includes(searchBy.value.toLowerCase())
   );
 });
 
 const completedTasks = computed(() => {
-  return storedTaskList.value.filter(task => task.isDone).length;
+  return storedTaskList.value.filter((task: Task) => task.isDone).length;
 });
 
 const handleDeleteTask = (taskId: string) => {

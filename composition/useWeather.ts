@@ -7,11 +7,7 @@ export function useWeather() {
           method: 'GET',
         })
 
-        console.log('data.value', data.value);
-
         return data.value;
-
-
 
       } catch (error) {
         console.error(error)
