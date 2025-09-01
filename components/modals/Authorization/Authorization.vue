@@ -1,5 +1,8 @@
 <script setup lang="ts">
-  const isOpen = ref(false)
+  import { useAuth } from '~/composable/useAuth'
+
+  const { signIn, signUp, signOut } = useAuth()
+
   const activeTab = ref<'login' | 'register'>('login')
 
   const email = ref('')
@@ -15,14 +18,24 @@
     emit('closeModal')
   }
 
-  function onLogin() {
+  const onSingIn = async () => {
+    try {
+      await signIn(email.value, password.value);
+      // closeModal()
+    } catch (error) {
+      console.error('Error signing in:', error)
+    }
 
-    closeModal()
+
   }
 
-  function onRegister() {
-
-    closeModal()
+  const onSingUp = async () => {
+    try {
+      await signUp(email.value, password.value, username.value);
+      // closeModal()
+    } catch (error) {
+      console.error('Error signing up:', error)
+    }
   }
 
 </script>
@@ -53,14 +66,14 @@
           </div>
 
           <!-- Login form -->
-          <form v-if="activeTab === 'login'" @submit.prevent="onLogin">
+          <form v-if="activeTab === 'login'" @submit.prevent="onSingIn">
             <input type="email" v-model="email" placeholder="Email" required />
             <input type="password" v-model="password" placeholder="Password" required />
             <Button>Login</Button>
           </form>
 
           <!-- Register form -->
-          <form v-else @submit.prevent="onRegister">
+          <form v-else @submit.prevent="onSingUp">
             <input type="text" v-model="username" placeholder="Username" required />
             <input type="email" v-model="email" placeholder="Email" required />
             <input type="password" v-model="password" placeholder="Password" required />

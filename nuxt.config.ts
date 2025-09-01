@@ -6,10 +6,25 @@ export default defineNuxtConfig({
     '@/assets/scss/reset.scss',
     '@/assets/scss/main.scss'
   ],
+  modules: ['@nuxtjs/supabase'],
   components: {
     "dirs": [
       { "path": "~/components/", "global": true, pathPrefix: false, },
       // { "path": "~/components/modals", "global": true, pathPrefix: false, }
     ],
   },
+  runtimeConfig: {
+    // Приватні (тільки на сервері)
+    SUPABASE_KEY: process.env.NUXT_SUPABASE_KEY,
+
+    public: {
+      SUPABASE_KEY: process.env.NUXT_SUPABASE_KEY
+    }
+  },
+  supabase: {
+    redirect: false,
+    url: process.env.NUXT_SUPABASE_URL,
+    key: process.env.NUXT_SUPABASE_KEY,
+    
+  }
 })
