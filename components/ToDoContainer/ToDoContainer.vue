@@ -5,6 +5,7 @@ import { useList } from '@/composable/useTaskList';
 import type { Task } from '@/types/index';
 
 const { addTask, storedTaskList, deleteTask, completeTask } = useList();
+const userStore = useUserStore();
 
 const searchBy = ref('');
 const deleteTaskModal = ref(false);
@@ -15,7 +16,7 @@ const addTaskConfirm = (value: string) => {
   const newTask: Task = {
     title: value,
     isDone: false,
-    date: getFormattedDate(),
+    created_at: getFormattedDate(),
     id: Math.random(),
   };
 
@@ -59,6 +60,10 @@ const handleRejectDeleting = () => {
 };
 
 const handleAddTask = () => {
+  if (!userStore.isUser) {
+    alert('Please login to add tasks');
+    return;
+  }
   openAddTaskModal.value = true;
 };
 

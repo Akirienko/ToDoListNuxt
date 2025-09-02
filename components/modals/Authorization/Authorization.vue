@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { useAuth } from '~/composable/useAuth'
+  import { useUserStore } from '@/stores/user'
 
+  const userStore = useUserStore()
   const { signIn, signUp, signOut } = useAuth()
 
   const activeTab = ref<'login' | 'register'>('login')
@@ -11,7 +13,6 @@
 
   const emit = defineEmits<{
     closeModal: []
-
   }>()
 
   function closeModal() {
@@ -20,8 +21,18 @@
 
   const onSingIn = async () => {
     try {
-      await signIn(email.value, password.value);
-      // closeModal()
+      const resp = await signIn(email.value, password.value);
+
+      console.log('resp singin comp', resp);
+
+      if (resp) {
+        userStore.userInfo.email = resp.email;
+        userStore.userInfo.id = resp.sub;
+        userStore.userInfo.name = resp.username;
+
+        userStore.isUser = true;
+        closeModal();
+      }
     } catch (error) {
       console.error('Error signing in:', error)
     }
@@ -31,7 +42,17 @@
 
   const onSingUp = async () => {
     try {
-      await signUp(email.value, password.value, username.value);
+      const resp = await signUp(email.value, password.value, username.value);
+
+      if (resp) {
+        userStore.userInfo.email = resp.email;
+        userStore.userInfo.id = resp.sub;
+        userStore.userInfo.name = resp.username;
+
+        userStore.isUser = true;
+        
+        closeModal();
+      }
       // closeModal()
     } catch (error) {
       console.error('Error signing up:', error)

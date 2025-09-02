@@ -1,6 +1,12 @@
 export type Task = {
-  id: number
+  id: number | string
   title: string
-  date: string
+  created_at: string
   isDone: boolean
+}
+
+export type User = {
+  id: string
+  email: string
+  name: string
 }

@@ -7,6 +7,7 @@ type IconType = 'search' | 'logo' | 'pencil';
 
 type IconButtonProps = {
   icon: IconType;
+  iconStyles: string;
 };
 
 const props = defineProps<IconButtonProps>();
@@ -22,5 +23,5 @@ const icons = {
 </script>
 
 <template>
-  <img :src="icons[icon]" />
+  <img :src="icons[icon]" :class="iconStyles" />
 </template>

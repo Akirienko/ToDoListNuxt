@@ -3,6 +3,10 @@ type IconType = 'searchImage' | 'logo' | 'pencil';
 
 type IconButtonProps = {
   icon: IconType;
+  iconStyles: {
+    type: String,
+    default: ''
+  }
 };
 
 const props = defineProps<IconButtonProps>();
@@ -11,6 +15,6 @@ const props = defineProps<IconButtonProps>();
 
 <template>
   <Button>
-    <Icon :icon="icon" />
+    <Icon :icon="icon" :icon-styles="props.iconStyles" />
   </Button>
 </template>

@@ -1,28 +1,31 @@
 <script setup lang="ts">
+import { getFormattedDate } from "@/utils/index";
+
 const emit = defineEmits(['on-delete-task', 'on-complete-task'])
+
 
 const props = defineProps({
   title: {
     type: String,
     required: true,
   },
-  date: {
+  created_at: {
     type: String,
   },
   isDone: {
     type: Boolean,
   },
   taskId: {
-    type: Number,
+    type: String,
     required: true,
   }
 })
 
-const onDelete = (id: number) => {
+const onDelete = (id: number | string) => {
   emit('on-delete-task', id);
 }
 
-const onComplete = (id: number) => {
+const onComplete = (id: number | string) => {
   emit('on-complete-task', id);
 }
 
@@ -36,7 +39,7 @@ const onComplete = (id: number) => {
     </div>
 
     <div class="task-card__right">
-      <span class="task-card__date">{{props.date}}</span>
+      <span class="task-card__date">{{getFormattedDate(props.created_at)}}</span>
       <button class="task-card__delete" @click="onDelete(props.taskId)">✕
       </button>
     </div>

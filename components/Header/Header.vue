@@ -12,7 +12,7 @@ weather.value = await getWeather(weatherUrl);
 const authorizationModal = ref(false);
 
 const handleLogin = () => {
-  
+
 }
 
 </script>
@@ -30,7 +30,9 @@ const handleLogin = () => {
       <p class="header-subtitle">Organize and complete your pending tasks easily.</p>
     </div>
 
-    <Login @on-login="authorizationModal = true" />
+    <client-only>
+      <Login @on-login="authorizationModal = true" />
+    </client-only>
 
   </div>
 

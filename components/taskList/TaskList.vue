@@ -22,7 +22,7 @@ const handleCompleteTask = (id: number) => {
   <div class="tasks">
     <div class="tasks-body">
       <TaskItem v-if="tasks.length" v-for="task in props.tasks" :key="task.id" :title="task.title"
-        :date="task.date" :isDone="task.isDone" @on-delete-task="handleDeleteTask"
+        :created_at="task.created_at" :isDone="task.isDone" @on-delete-task="handleDeleteTask"
         @on-complete-task="handleCompleteTask" :task-id="task.id" />
 
       <div class="empty" v-else>

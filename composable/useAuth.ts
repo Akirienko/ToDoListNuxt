@@ -13,9 +13,9 @@ export function useAuth() {
       throw error;
     }
 
-    console.log('data signIn', data );
+    console.log('data signIn use', data );
 
-    return data;
+    return data.user.user_metadata
   };
 
   const signUp = async (email: string, password: string, username?: string) => {
@@ -33,10 +33,7 @@ export function useAuth() {
       throw error;
     }
 
-    return {
-      isUser: true,
-      user: data.user
-    }
+    return data.user.user_metadata
   };
 
   const signOut = async () => {

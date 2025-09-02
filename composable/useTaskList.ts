@@ -1,42 +1,81 @@
 import { ref } from "vue";
 import type { Task } from "~/types";
-import Storage from '~/services/Storage';
-
-const TASK_LIST_LS_KEY = "task-list";
 
 export function useList() {
+  const userStore = useUserStore();
+
+  const client = useSupabaseClient();
+
   const storedTaskList = ref<Task[]>([]);
 
-  onMounted(() => {
-    const data = Storage.get<Task[]>(TASK_LIST_LS_KEY);
+  const getTasks = async () => {
+    if (!userStore.userInfo) return
+    const { data, error } = await client
+      .from('todos')
+      .select('*')
+      .eq('user_id', userStore.userInfo.id)
+      .order('created_at', { ascending: false })
 
-    storedTaskList.value = data || [];
-  });
+    if (error) throw error
+    storedTaskList.value = data
 
-  const saveToStorage = () => {
-    Storage.set<Task[]>(TASK_LIST_LS_KEY, storedTaskList.value);
+    console.log('getTasks storedTaskList.value', storedTaskList.value);
+
   }
 
-  const addTask = (task: Task) => {
+  onMounted(() => {
+    if (userStore.isUser) {
+      getTasks();
+    }
+  });
+
+  watch(() => userStore.isUser, (newVal) => {
+    if (newVal) {
+      getTasks();
+    } else {
+      storedTaskList.value = [];
+    }
+  });
+
+  const addTask = async (task: Task) => {
     storedTaskList.value = [...storedTaskList.value, task];
 
-    saveToStorage()
+    const { data, error } = await client
+    .from('todos')
+    .insert([
+      { title: task.title, isDone: task.isDone, user_id: userStore.userInfo.id },
+    ])
+    .select()
+
+    if (error) throw error
+
   };
 
-  const deleteTask = (id: string | number) => {
+  const deleteTask = async (id: string | number) => {
     storedTaskList.value = storedTaskList.value.filter(task => task.id !== id);
 
-    saveToStorage()
+    const response = await client
+    .from('todos')
+    .delete()
+    .eq('id', id)
+
   };
 
-  const completeTask = (id: number) => {
-    storedTaskList.value.forEach(task => {
-      if (task.id === id) {
-        task.isDone = !task.isDone;
-      }
-    });
+  const completeTask = async (id: string | number) => {
+    const task = storedTaskList.value.find(task => task.id === id)
 
-    saveToStorage()
+    if (!task) return
+    task.isDone = !task.isDone
+
+    const { error } = await client
+      .from('todos')
+      .update({ isDone: task.isDone })
+      .eq('id', task.id)
+    if (error) {
+      console.log(error);
+      throw error
+    }
+
   }
 
   //TODO: replace it in the future to separate composable?

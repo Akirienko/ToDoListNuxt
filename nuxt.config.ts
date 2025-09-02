@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
@@ -6,7 +7,7 @@ export default defineNuxtConfig({
     '@/assets/scss/reset.scss',
     '@/assets/scss/main.scss'
   ],
-  modules: ['@nuxtjs/supabase'],
+  modules: ['@nuxtjs/supabase', "@pinia/nuxt"],
   components: {
     "dirs": [
       { "path": "~/components/", "global": true, pathPrefix: false, },
@@ -25,6 +26,6 @@ export default defineNuxtConfig({
     redirect: false,
     url: process.env.NUXT_SUPABASE_URL,
     key: process.env.NUXT_SUPABASE_KEY,
-    
+
   }
 })
